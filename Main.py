@@ -142,7 +142,7 @@ def changeValue(arr: list, rules: list):
                     if rules[cell.idx][0] == rules[j][2][::-1]:
                         newOptions.append(j)
         
-                newCell.options = newOptions
+                newCell.options = [opt for opt in newCell.options if opt in newOptions]
         #change right of cell 
         elif i == 1:
             newX = x + 1
@@ -152,7 +152,7 @@ def changeValue(arr: list, rules: list):
                     if rules[cell.idx][1] == rules[j][3][::-1]:
                         newOptions.append(j)
             
-                newCell.options = newOptions
+                newCell.options = [opt for opt in newCell.options if opt in newOptions]
         #change below cell 
         elif i == 2:
             newY = y + 1
@@ -162,7 +162,7 @@ def changeValue(arr: list, rules: list):
                     if rules[cell.idx][2] == rules[j][0][::-1]:
                         newOptions.append(j)
 
-                newCell.options = newOptions 
+                newCell.options = [opt for opt in newCell.options if opt in newOptions]
         #change left of cell 
         elif i == 3:
             newX = x - 1
@@ -172,7 +172,8 @@ def changeValue(arr: list, rules: list):
                     if rules[cell.idx][3] == rules[j][1][::-1]:
                         newOptions.append(j)
             
-                newCell.options = newOptions
+                newCell.options = [opt for opt in newCell.options if opt in newOptions] 
+    
     return 1 
 
 def checkEmpty(arr: list) -> bool:
