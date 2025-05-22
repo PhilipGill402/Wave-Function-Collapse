@@ -1,4 +1,6 @@
 import pygame
+
+import pygame
 import random
 from Constants import *
 from Cell import *
@@ -82,24 +84,22 @@ def createRules() -> list:
     for i in range(1, 4):
         for j in originals:
             #shifts the array i times
-            rotated = j[i:] + j[:i]
+            rotated = j[-i:] + j[:-i]
             rules.append(rotated)
 
     return rules 
 
 def draw(arr: list, imgs: list, surface):
-    imgWidth = WIDTH // SIZE
-    imgHeight = HEIGHT // SIZE
-    for i in range(SIZE):
-        for j in range(SIZE):
-            cell = arr[i][j]
-            x = j * imgWidth
-            y = i * imgHeight 
-            if cell.collapsed == False:
-                pygame.draw.rect(surface, WHITE, (x, y, imgWidth, imgHeight), 1, border_radius=1)
-            else:
-                img = pygame.transform.scale(imgs[cell.idx], (imgWidth, imgHeight))
-                surface.blit(img, (x, y))
+    for i in range(4):
+        for j in range(14):
+            width = WIDTH // 14
+            height = HEIGHT // 14
+            y = i * height 
+            x = j * width 
+            idx = i * 14 + j
+            #print(idx)
+            img = pygame.transform.scale(imgs[idx], (width, height))
+            surface.blit(img, (x, y))
 
 def findLowestEntropy(arr: list) -> tuple:
     min = 100
@@ -176,6 +176,7 @@ def changeValue(arr: list, rules: list):
     return 1 
 
 pygame.init()
+random.seed(1)
 surface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Wave Function Collapse")
 running = True
@@ -196,8 +197,7 @@ while running:
         if ev.type == pygame.KEYDOWN:
             if ev.key == pygame.K_SPACE:
                 printArr(arr)
-
-    changeValue(arr, rules) 
+    
     draw(arr, imgs, surface)
     pygame.display.update()
 
