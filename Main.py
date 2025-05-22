@@ -175,6 +175,15 @@ def changeValue(arr: list, rules: list):
                 newCell.options = newOptions
     return 1 
 
+def checkEmpty(arr: list) -> bool:
+    for i in arr:
+        for j in i:
+            if len(j.options) == 0 and not j.collapsed:
+                return True
+    
+    return False
+
+
 pygame.init()
 surface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Wave Function Collapse")
@@ -182,22 +191,23 @@ running = True
 arr = makeArr(SIZE)
 rules = createRules()
 imgs = loadImg()
+started = False
 
 while running:
     surface.fill(BLACK)
-    (x, y) = pygame.mouse.get_pos()
-    x = x // (WIDTH // SIZE)
-    y = y // (HEIGHT // SIZE)
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
             running = False
-        if ev.type == pygame.MOUSEBUTTONDOWN:
-            changeValue(arr, rules)
         if ev.type == pygame.KEYDOWN:
             if ev.key == pygame.K_SPACE:
-                printArr(arr)
+                started = True
 
-    changeValue(arr, rules) 
+    if started:
+        changeValue(arr, rules)
+    
+    if checkEmpty(arr):
+        arr = makeArr(SIZE)
+
     draw(arr, imgs, surface)
     pygame.display.update()
 
