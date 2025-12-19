@@ -52,7 +52,6 @@ def loadImg() -> list:
         for j in originals:
             newImg = pygame.transform.rotate(j, 90 * i)
             imgs.append(newImg)
-    print(len(imgs))
     return imgs 
 
 def createRules() -> list:
